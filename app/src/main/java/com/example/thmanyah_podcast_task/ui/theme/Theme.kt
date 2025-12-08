@@ -1,6 +1,5 @@
-package com.example.thmanyah_boadcast_task.ui.theme
+package com.example.thmanyah_podcast_task.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
