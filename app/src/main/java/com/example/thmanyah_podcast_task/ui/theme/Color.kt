@@ -1,4 +1,4 @@
-package com.example.thmanyah_boadcast_task.ui.theme
+package com.example.thmanyah_podcast_task.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

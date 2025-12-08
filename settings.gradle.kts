@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Thmanyah-Boadcast-Task"
 include(":app")
- 
+include(":domain")
+include(":data")
