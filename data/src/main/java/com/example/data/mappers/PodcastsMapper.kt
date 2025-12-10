@@ -1,8 +1,11 @@
 package com.example.data.mappers
 
 import com.example.data.remote.response.PodcastsListResponse
+import com.example.data.remote.response.SearchResponse
+import com.example.data.remote.response.SearchResultResponse
 import com.example.data.remote.response.Sections
 import com.example.domain.models.PodcastsList
+import com.example.domain.models.SearchResult
 
 fun PodcastsListResponse.toDomain() = PodcastsList(
     sections = this.sections.map { it.toDomain() }
@@ -28,3 +31,18 @@ fun com.example.data.remote.response.Content.toDomain() = com.example.domain.mod
     popularityScore = this.popularityScore,
     score = this.score
 )
+
+fun SearchResponse.toSearchResultList(): List<SearchResult> =
+    results.mapNotNull { it.toDomain() }
+
+fun SearchResultResponse.toDomain(): SearchResult? {
+    return SearchResult(
+        id = id ?: return null,
+        name = name ?: return null,
+        description = description,
+        avatarUrl = avatarUrl,
+        type = type,
+        duration = duration,
+        episodeCount = episodeCount
+    )
+}

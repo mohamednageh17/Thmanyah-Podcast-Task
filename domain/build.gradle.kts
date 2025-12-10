@@ -5,12 +5,10 @@ plugins {
 
 android {
     namespace = "com.example.domain"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 31
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -41,4 +39,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Coroutines (required for Flow)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Koin
+    implementation(libs.koin.core)
 }
