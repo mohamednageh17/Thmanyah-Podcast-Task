@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.core.designsystem.theme.ThmanyahCustomShapes
 import com.example.core.designsystem.theme.ThmanyahTextStyles
 import com.example.core.designsystem.theme.ThmanyahTheme
@@ -164,7 +165,7 @@ fun TagChip(
 }
 
 /**
- * Filter chip for selection states
+ * Filter chip for selection states - Pill shaped
  *
  * @param text Filter text
  * @param selected Whether the filter is selected
@@ -178,14 +179,34 @@ fun FilterChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AppChip(
-        text = text,
-        modifier = modifier,
-        variant = if (selected) AppChipVariant.Filled else AppChipVariant.Outlined,
-        size = AppChipSize.Medium,
-        selected = selected,
-        onClick = onClick
-    )
+    val backgroundColor = if (selected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        Color(0xFF2A2A2A)
+    }
+
+    val contentColor = if (selected) {
+        Color.Black
+    } else {
+        Color(0xFFAAAAAA)
+    }
+
+    Box(
+        modifier = modifier
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(20.dp))
+            .background(backgroundColor)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = if (selected) androidx.compose.ui.text.font.FontWeight.SemiBold else androidx.compose.ui.text.font.FontWeight.Normal
+            ),
+            color = contentColor,
+            fontSize = 13.sp
+        )
+    }
 }
 
 /**

@@ -106,8 +106,8 @@ object ThmanyahColors {
     // ═══════════════════════════════════════════════════════════════════════
 
     object Shimmer {
-        val DarkBase = Color(0xFF2A2A2A)
-        val DarkHighlight = Color(0xFF3A3A3A)
+        val DarkBase = Color(0xFF1A1A1A)
+        val DarkHighlight = Color(0xFF2A2A2A)
 
         val LightBase = Color(0xFFE8E8E8)
         val LightHighlight = Color(0xFFF5F5F5)

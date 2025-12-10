@@ -45,7 +45,7 @@ val networkModule = module {
 
     single<SearchApi> {
         Retrofit.Builder()
-            .baseUrl("https://mock.apidog.com/m1/735111-711675-default/")
+            .baseUrl(BuildConfig.SEARCH_BASE_URL)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

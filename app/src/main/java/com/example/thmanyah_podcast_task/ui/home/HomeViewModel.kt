@@ -14,9 +14,16 @@ import kotlinx.coroutines.flow.update
 
 data class HomeUiState(
     val isLoading: Boolean = false,
-    val sections: List<Sections> = emptyList(),
+    val allSections: List<Sections> = emptyList(),
+    val filteredSections: List<Sections> = emptyList(),
+    val contentTypeFilters: List<String> = emptyList(),
+    val selectedFilter: String = FILTER_ALL,
     val error: String? = null
-)
+) {
+    companion object {
+        const val FILTER_ALL = "الكل"
+    }
+}
 
 class HomeViewModel(
     private val fetchPodcastsUseCase: FetchPodcastsUseCase
@@ -38,12 +45,19 @@ class HomeViewModel(
                     }
 
                     is DataState.Success -> {
+                        val sortedSections = dataState.data.sections.sortedBy { section ->
+                            section.order?.toIntOrNull() ?: Int.MAX_VALUE
+                        }
+
+                        val contentTypes = extractContentTypes(sortedSections)
+
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                sections = dataState.data.sections.sortedBy { section ->
-                                    section.order?.toIntOrNull() ?: Int.MAX_VALUE
-                                },
+                                allSections = sortedSections,
+                                filteredSections = sortedSections,
+                                contentTypeFilters = contentTypes,
+                                selectedFilter = HomeUiState.FILTER_ALL,
                                 error = null
                             )
                         }
@@ -58,16 +72,41 @@ class HomeViewModel(
                         }
                     }
 
-                    is DataState.Default -> {
-                        // Initial state, do nothing
-                    }
+                    is DataState.Default -> {}
                 }
             }
             .launchIn(viewModelScope)
     }
 
+    fun onFilterSelected(filter: String) {
+        val currentState = _uiState.value
+
+        val filteredSections = if (filter == HomeUiState.FILTER_ALL) {
+            currentState.allSections
+        } else {
+            currentState.allSections.filter { section ->
+                section.contentType.equals(filter, ignoreCase = true)
+            }
+        }
+
+        _uiState.update {
+            it.copy(
+                selectedFilter = filter,
+                filteredSections = filteredSections
+            )
+        }
+    }
+
     fun retry() {
         fetchHomeSections()
     }
-}
 
+    private fun extractContentTypes(sections: List<Sections>): List<String> {
+        val uniqueTypes = sections
+            .mapNotNull { it.contentType }
+            .filter { it.isNotBlank() }
+            .distinct()
+
+        return listOf(HomeUiState.FILTER_ALL) + uniqueTypes
+    }
+}
