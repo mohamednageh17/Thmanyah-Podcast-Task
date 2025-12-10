@@ -1,19 +1,34 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
 }
 
+// Load API properties
+val apiProperties = Properties().apply {
+    val apiPropertiesFile = rootProject.file("apiurl.properties")
+    if (apiPropertiesFile.exists()) {
+        load(apiPropertiesFile.inputStream())
+    }
+}
+
 android {
     namespace = "com.example.data"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 31
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        // Build config field for BASE_URL
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            apiProperties.getProperty("BASE_URL", "\"https://api-v2-b2sit6oh3a-uc.a.run.app/\"")
+        )
     }
 
     buildTypes {
@@ -25,6 +40,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -55,4 +75,11 @@ dependencies {
     implementation(libs.ok2curl)
     implementation(libs.okhttp)
 
+    // Koin
+    implementation(libs.koin.core)
+
+    // Testing
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
