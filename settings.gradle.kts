@@ -23,3 +23,4 @@ rootProject.name = "Thmanyah-Boadcast-Task"
 include(":app")
 include(":domain")
 include(":data")
+include(":core:designsystem")

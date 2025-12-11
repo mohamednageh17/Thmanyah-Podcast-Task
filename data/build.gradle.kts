@@ -29,6 +29,16 @@ android {
             "BASE_URL",
             apiProperties.getProperty("BASE_URL", "\"https://api-v2-b2sit6oh3a-uc.a.run.app/\"")
         )
+
+        // Build config field for SEARCH_BASE_URL
+        buildConfigField(
+            "String",
+            "SEARCH_BASE_URL",
+            apiProperties.getProperty(
+                "SEARCH_BASE_URL",
+                "\"https://mock.apidog.com/m1/735111-711675-default/\""
+            )
+        )
     }
 
     buildTypes {
@@ -77,6 +87,7 @@ dependencies {
 
     // Koin
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     // Testing
     testImplementation(libs.mockk)

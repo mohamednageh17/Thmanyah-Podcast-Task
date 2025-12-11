@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteDatasource {
 
-    fun fetchPodcasts(): Flow<DataState<PodcastsList>>
+    fun fetchPodcasts(page: Int): Flow<DataState<PodcastsList>>
 
     fun search(query: String): Flow<DataState<List<SearchResult>>>
 }

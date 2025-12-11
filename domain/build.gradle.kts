@@ -45,4 +45,9 @@ dependencies {
 
     // Koin
     implementation(libs.koin.core)
+
+    // Testing
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

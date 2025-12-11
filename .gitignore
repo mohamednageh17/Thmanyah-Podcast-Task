@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/core/designsystem/build/.transforms/92e02451e8c7a5d047904b2b5c0aa1da/transformed/bundleLibRuntimeToDirDebug/com/example/core/designsystem/components/loading/LoadingSize.dex

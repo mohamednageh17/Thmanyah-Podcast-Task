@@ -7,8 +7,17 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    // ViewModels
-    viewModel { HomeViewModel(fetchPodcastsUseCase = get()) }
-    viewModel { SearchViewModel(searchPodcastsUseCase = get()) }
-}
+    viewModel {
+        HomeViewModel(
+            fetchPodcastsUseCase = get(),
+            networkMonitor = get()
+        )
+    }
 
+    viewModel {
+        SearchViewModel(
+            searchPodcastsUseCase = get(),
+            networkMonitor = get()
+        )
+    }
+}
