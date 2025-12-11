@@ -5,8 +5,7 @@ principles and MVVM pattern.
 
 ## 🎬 Demo
 
-[Screen_recording_20251211_140313.mp4](../Screen_recording_20251211_140313.mp4)
-
+[demo.mp4](../demo.mp4)
 
 ## 📱 Features
 
