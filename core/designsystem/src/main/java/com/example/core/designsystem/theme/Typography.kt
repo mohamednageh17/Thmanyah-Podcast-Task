@@ -2,26 +2,24 @@ package com.example.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.core.designsystem.R
 
-/**
- * Thmanyah Typography System
- *
- * This follows Material 3 type scale with customizations for the Thmanyah brand.
- * Using system fonts for simplicity - can be replaced with custom fonts.
- */
+val IBMPlexSansArabic = FontFamily(
+    Font(R.font.ibm_plex_sans_arabic_light, FontWeight.Light),
+    Font(R.font.ibm_plex_sans_arabic_regular, FontWeight.Normal),
+    Font(R.font.ibm_plex_sans_arabic_medium, FontWeight.Medium),
+    Font(R.font.ibm_plex_sans_arabic_semibold, FontWeight.SemiBold),
+    Font(R.font.ibm_plex_sans_arabic_bold, FontWeight.Bold)
+)
 
-// Default font family - can be replaced with custom font
-val ThmanyahFontFamily = FontFamily.Default
+val ThmanyahFontFamily = IBMPlexSansArabic
 
-/**
- * Custom text styles beyond Material 3 defaults
- */
 object ThmanyahTextStyles {
 
-    // Section headers
     val sectionTitle = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Bold,
@@ -30,7 +28,6 @@ object ThmanyahTextStyles {
         letterSpacing = 0.sp
     )
 
-    // Card titles
     val cardTitle = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.SemiBold,
@@ -39,7 +36,6 @@ object ThmanyahTextStyles {
         letterSpacing = 0.1.sp
     )
 
-    // Card subtitles
     val cardSubtitle = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Normal,
@@ -48,7 +44,6 @@ object ThmanyahTextStyles {
         letterSpacing = 0.2.sp
     )
 
-    // Chips / Tags
     val chip = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Medium,
@@ -57,7 +52,6 @@ object ThmanyahTextStyles {
         letterSpacing = 0.3.sp
     )
 
-    // Button text
     val buttonLarge = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.SemiBold,
@@ -82,7 +76,6 @@ object ThmanyahTextStyles {
         letterSpacing = 0.2.sp
     )
 
-    // Metadata / Captions
     val metadata = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Normal,
@@ -92,11 +85,7 @@ object ThmanyahTextStyles {
     )
 }
 
-/**
- * Material 3 Typography with Thmanyah customizations
- */
 val ThmanyahTypography = Typography(
-    // Display styles
     displayLarge = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Bold,
@@ -118,8 +107,6 @@ val ThmanyahTypography = Typography(
         lineHeight = 44.sp,
         letterSpacing = 0.sp
     ),
-
-    // Headline styles
     headlineLarge = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Bold,
@@ -141,8 +128,6 @@ val ThmanyahTypography = Typography(
         lineHeight = 32.sp,
         letterSpacing = 0.sp
     ),
-
-    // Title styles
     titleLarge = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.SemiBold,
@@ -164,8 +149,6 @@ val ThmanyahTypography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     ),
-
-    // Body styles
     bodyLarge = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Normal,
@@ -187,8 +170,6 @@ val ThmanyahTypography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp
     ),
-
-    // Label styles
     labelLarge = TextStyle(
         fontFamily = ThmanyahFontFamily,
         fontWeight = FontWeight.Medium,
@@ -211,6 +192,3 @@ val ThmanyahTypography = Typography(
         letterSpacing = 0.5.sp
     )
 )
-
-
-

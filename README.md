@@ -5,7 +5,7 @@ principles and MVVM pattern.
 
 ## 🎬 Demo
 
-https://github.com/user-attachments/assets/6761a3cd-822d-4c03-b255-55e3c932e73b
+https://github.com/user-attachments/assets/7c40d2c3-1b7d-42ed-af05-204f38acbefd
 
 ## 📱 Features
 

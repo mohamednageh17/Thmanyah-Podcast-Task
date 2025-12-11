@@ -31,6 +31,12 @@
     <string name="search_no_results_for">لم نجد نتائج لـ \"%1$s\"</string>
     <string name="search_error">حدث خطأ</string>
 
+    <!-- Content Type Filters -->
+    <string name="content_type_podcast">البودكاست</string>
+    <string name="content_type_episode">الحلقات</string>
+    <string name="content_type_audio_book">الكتب الصوتية</string>
+    <string name="content_type_audio_article">المقالات الصوتية</string>
+
     <!-- Content Labels -->
     <string name="episode_count">%1$d حلقة</string>
     <string name="episodes_count_text">%1$s حلقة</string>

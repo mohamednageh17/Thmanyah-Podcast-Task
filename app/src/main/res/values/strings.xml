@@ -30,6 +30,12 @@
     <string name="search_no_results_for">No results found for \"%1$s\"</string>
     <string name="search_error">An error occurred</string>
 
+    <!-- Content Type Filters -->
+    <string name="content_type_podcast">Podcasts</string>
+    <string name="content_type_episode">Episodes</string>
+    <string name="content_type_audio_book">Audiobooks</string>
+    <string name="content_type_audio_article">Audio Articles</string>
+
     <!-- Content Labels -->
     <string name="episode_count">%1$d episodes</string>
     <string name="episodes_count_text">%1$s episodes</string>

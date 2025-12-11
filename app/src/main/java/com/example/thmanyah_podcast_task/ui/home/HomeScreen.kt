@@ -60,6 +60,7 @@ import com.example.domain.models.SectionType
 import com.example.domain.models.Sections
 import com.example.thmanyah_podcast_task.R
 import com.example.thmanyah_podcast_task.ui.home.components.ContentItemFactory
+import com.example.thmanyah_podcast_task.util.ContentTypeMapper
 import com.example.thmanyah_podcast_task.util.ErrorMessageResolver
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -210,9 +211,12 @@ private fun HomeContent(
     onItemClick: (Content) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val filterAll = stringResource(R.string.filter_all)
     val displayFilters = remember(contentTypeFilters, filterAll) {
-        listOf(filterAll) + contentTypeFilters
+        listOf(filterAll) + contentTypeFilters.map {
+            ContentTypeMapper.getLocalizedName(context, it)
+        }
     }
 
     val listState = rememberLazyListState()
