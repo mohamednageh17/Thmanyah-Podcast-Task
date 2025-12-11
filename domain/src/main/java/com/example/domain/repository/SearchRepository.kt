@@ -8,3 +8,4 @@ interface SearchRepository {
     fun search(query: String): Flow<DataState<List<SearchResult>>>
 }
 
+

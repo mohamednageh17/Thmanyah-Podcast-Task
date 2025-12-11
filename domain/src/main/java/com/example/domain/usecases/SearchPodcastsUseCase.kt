@@ -6,3 +6,4 @@ class SearchPodcastsUseCase(private val searchRepository: SearchRepository) {
     operator fun invoke(query: String) = searchRepository.search(query)
 }
 
+

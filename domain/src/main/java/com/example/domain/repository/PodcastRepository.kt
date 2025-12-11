@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PodcastRepository {
 
-    fun fetchPodcasts(): Flow<DataState<PodcastsList>>
+    fun fetchPodcasts(page: Int): Flow<DataState<PodcastsList>>
 }

@@ -18,19 +18,19 @@ import androidx.core.view.WindowCompat
  */
 private val ThmanyahDarkColorScheme = darkColorScheme(
     // Primary
-    primary = ThmanyahColors.Teal,
+    primary = ThmanyahColors.Red,
     onPrimary = Color.Black,
-    primaryContainer = ThmanyahColors.TealDark,
-    onPrimaryContainer = ThmanyahColors.TealLight,
+    primaryContainer = ThmanyahColors.RedDark,
+    onPrimaryContainer = ThmanyahColors.RedLight,
 
     // Secondary
-    secondary = ThmanyahColors.TealLight,
+    secondary = ThmanyahColors.RedLight,
     onSecondary = Color.Black,
-    secondaryContainer = ThmanyahColors.TealDark,
-    onSecondaryContainer = ThmanyahColors.TealLight,
+    secondaryContainer = ThmanyahColors.RedDark,
+    onSecondaryContainer = ThmanyahColors.RedLight,
 
     // Tertiary
-    tertiary = ThmanyahColors.TealLight,
+    tertiary = ThmanyahColors.RedLight,
     onTertiary = Color.Black,
 
     // Background & Surface
@@ -54,7 +54,7 @@ private val ThmanyahDarkColorScheme = darkColorScheme(
     // Inverse
     inverseSurface = ThmanyahColors.Light.Surface,
     inverseOnSurface = ThmanyahColors.Light.OnSurface,
-    inversePrimary = ThmanyahColors.TealDark,
+    inversePrimary = ThmanyahColors.RedDark,
 
     // Scrim
     scrim = Color.Black.copy(alpha = 0.5f)
@@ -65,19 +65,19 @@ private val ThmanyahDarkColorScheme = darkColorScheme(
  */
 private val ThmanyahLightColorScheme = lightColorScheme(
     // Primary
-    primary = ThmanyahColors.Teal,
+    primary = ThmanyahColors.Red,
     onPrimary = Color.White,
-    primaryContainer = ThmanyahColors.TealLight,
-    onPrimaryContainer = ThmanyahColors.TealDark,
+    primaryContainer = ThmanyahColors.RedLight,
+    onPrimaryContainer = ThmanyahColors.RedDark,
 
     // Secondary
-    secondary = ThmanyahColors.TealDark,
+    secondary = ThmanyahColors.RedDark,
     onSecondary = Color.White,
-    secondaryContainer = ThmanyahColors.TealLight,
-    onSecondaryContainer = ThmanyahColors.TealDark,
+    secondaryContainer = ThmanyahColors.RedLight,
+    onSecondaryContainer = ThmanyahColors.RedDark,
 
     // Tertiary
-    tertiary = ThmanyahColors.TealDark,
+    tertiary = ThmanyahColors.RedDark,
     onTertiary = Color.White,
 
     // Background & Surface
@@ -101,7 +101,7 @@ private val ThmanyahLightColorScheme = lightColorScheme(
     // Inverse
     inverseSurface = ThmanyahColors.Dark.Surface,
     inverseOnSurface = ThmanyahColors.Dark.OnSurface,
-    inversePrimary = ThmanyahColors.TealLight,
+    inversePrimary = ThmanyahColors.RedLight,
 
     // Scrim
     scrim = Color.Black.copy(alpha = 0.3f)
@@ -188,4 +188,5 @@ object ThmanyahTheme {
     val colors: ThmanyahColors
         get() = ThmanyahColors
 }
+
 

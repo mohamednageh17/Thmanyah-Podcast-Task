@@ -16,3 +16,4 @@ data class SearchResultResponse(
     @SerializedName("episode_count") val episodeCount: String? = null
 )
 
+

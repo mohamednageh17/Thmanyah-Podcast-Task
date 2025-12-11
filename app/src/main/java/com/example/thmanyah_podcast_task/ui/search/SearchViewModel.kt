@@ -22,7 +22,7 @@ data class SearchUiState(
     val query: String = "",
     val isLoading: Boolean = false,
     val results: List<SearchResult> = emptyList(),
-    val error: String? = null,
+    val error: Throwable? = null,
     val isEmpty: Boolean = false
 )
 
@@ -40,10 +40,6 @@ class SearchViewModel(
         setupSearchDebounce()
     }
 
-    /**
-     * Sets up search debounce flow to prevent excessive API calls.
-     * Waits 200ms after user stops typing before triggering search.
-     */
     private fun setupSearchDebounce() {
         _searchQuery
             .debounce(DEBOUNCE_DELAY_MS)
@@ -69,7 +65,6 @@ class SearchViewModel(
                     is DataState.Loading -> {
                         _uiState.update { it.copy(isLoading = true, error = null) }
                     }
-
                     is DataState.Success -> {
                         _uiState.update {
                             it.copy(
@@ -80,16 +75,14 @@ class SearchViewModel(
                             )
                         }
                     }
-
                     is DataState.Error -> {
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                error = dataState.exception?.message ?: "Search failed"
+                                error = dataState.exception
                             )
                         }
                     }
-
                     else -> {}
                 }
             }

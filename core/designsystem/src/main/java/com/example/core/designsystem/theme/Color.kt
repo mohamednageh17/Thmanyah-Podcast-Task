@@ -14,10 +14,9 @@ object ThmanyahColors {
     // BRAND COLORS
     // ═══════════════════════════════════════════════════════════════════════
 
-    val Teal = Color(0xFF00B4A0)
-    val TealLight = Color(0xFF5EEFD8)
-    val TealDark = Color(0xFF008577)
-    val TealSubtle = Color(0x1A00B4A0) // 10% opacity
+    val Red = Color(0xFFFF5722)
+    val RedLight = Color(0xFFE17D5F)
+    val RedDark = Color(0xFFC0350A)
 
     // ═══════════════════════════════════════════════════════════════════════
     // NEUTRAL COLORS - DARK THEME
@@ -82,23 +81,6 @@ object ThmanyahColors {
         val ErrorDark = Color(0xFFDC2626)
         val OnError = Color(0xFFFFFFFF)
 
-        // Info
-        val Info = Color(0xFF3B82F6)
-        val InfoLight = Color(0xFF93C5FD)
-        val InfoDark = Color(0xFF2563EB)
-        val OnInfo = Color(0xFFFFFFFF)
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // GRADIENT COLORS
-    // ═══════════════════════════════════════════════════════════════════════
-
-    object Gradient {
-        val TealStart = Color(0xFF00B4A0)
-        val TealEnd = Color(0xFF008577)
-
-        val DarkOverlayStart = Color(0x00000000)
-        val DarkOverlayEnd = Color(0xCC000000)
     }
 
     // ═══════════════════════════════════════════════════════════════════════

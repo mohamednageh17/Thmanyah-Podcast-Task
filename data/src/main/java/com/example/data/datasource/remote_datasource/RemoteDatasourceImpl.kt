@@ -16,11 +16,11 @@ class RemoteDatasourceImpl(
     private val searchApi: SearchApi
 ) : RemoteDatasource {
 
-    override fun fetchPodcasts(): Flow<DataState<PodcastsList>> {
+    override fun fetchPodcasts(page: Int): Flow<DataState<PodcastsList>> {
         return flow {
             emit(DataState.Loading)
             try {
-                val apiResponse = podcastsApi.getPodcastsList()
+                val apiResponse = podcastsApi.getPodcastsList(page)
                 emit(DataState.Success(apiResponse.toDomain()))
             } catch (e: Exception) {
                 emit(DataState.Error(e))

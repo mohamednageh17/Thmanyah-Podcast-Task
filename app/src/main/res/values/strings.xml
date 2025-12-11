@@ -1,3 +1,55 @@
 <resources>
     <string name="app_name">Thmanyah Podcast</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_library">My Library</string>
+    <string name="nav_profile">My Account</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="home_morning_greeting">Good morning</string>
+    <string name="home_evening_greeting">Good evening</string>
+    <string name="comma">,</string>
+    <string name="user_name">Nageh</string>
+    <string name="home_loading">Loading…</string>
+    <string name="home_error_title">An error occurred</string>
+    <string name="home_error_loading">Error loading content</string>
+    <string name="home_retry">Retry</string>
+    <string name="home_empty">No content available</string>
+    <string name="filter_all">All</string>
+    <string name="see_all">See All</string>
+
+    <!-- Search Screen -->
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search for podcast, episode, or author…</string>
+    <string name="search_idle_title">Search for a podcast</string>
+    <string name="search_idle_subtitle">Search for your favorite shows</string>
+    <string name="search_no_results">No results</string>
+    <string name="search_no_results_for">No results found for \"%1$s\"</string>
+    <string name="search_error">An error occurred</string>
+
+    <!-- Content Labels -->
+    <string name="episode_count">%1$d episodes</string>
+    <string name="episodes_count_text">%1$s episodes</string>
+    <string name="new_label">New</string>
+    <string name="listen_now">Listen now</string>
+    <string name="remaining_time">%1$s remaining</string>
+    <string name="default_duration">45</string>
+    <string name="podcast_default">Podcast</string>
+    <string name="separator"> · </string>
+
+    <!-- Accessibility -->
+    <string name="notifications">Notifications</string>
+    <string name="profile">Profile</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="play">Play</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="podcast_cover">Podcast Cover</string>
+
+    <!-- Error States -->
+    <string name="error_unknown">Unknown error occurred</string>
+    <string name="error_search_failed">Search failed</string>
 </resources>

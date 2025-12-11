@@ -13,8 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import com.example.core.designsystem.theme.ThmanyahTextStyles
 import com.example.core.designsystem.theme.ThmanyahTheme
 
@@ -60,132 +58,15 @@ fun SectionHeader(
             Row(
                 modifier = Modifier
                     .clickable(onClick = onSeeAllClick)
-                    .padding(ThmanyahTheme.spacing.xxs),
+                    .padding(ThmanyahTheme.spacing.xs),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = seeAllText,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
     }
 }
-
-/**
- * Compact section header with smaller text
- *
- * @param title Section title text
- * @param modifier Modifier for the header
- */
-@Composable
-fun CompactSectionHeader(
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleSmall.copy(
-            fontWeight = FontWeight.SemiBold
-        ),
-        color = MaterialTheme.colorScheme.onBackground,
-        modifier = modifier.padding(
-            horizontal = ThmanyahTheme.spacing.md,
-            vertical = ThmanyahTheme.spacing.xs
-        )
-    )
-}
-
-/**
- * Large section header for prominent sections
- *
- * @param title Section title text
- * @param subtitle Optional subtitle
- * @param modifier Modifier for the header
- */
-@Composable
-fun LargeSectionHeader(
-    title: String,
-    subtitle: String? = null,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = ThmanyahTheme.spacing.md,
-                vertical = ThmanyahTheme.spacing.sm
-            ),
-        verticalAlignment = Alignment.Bottom
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineSmall.copy(
-                fontWeight = FontWeight.Bold
-            ),
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
-        subtitle?.let {
-            Text(
-                text = " · $it",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = ThmanyahTheme.spacing.xxxs)
-            )
-        }
-    }
-}
-
-/**
- * Subtitle text component for secondary information
- *
- * @param text Subtitle text
- * @param modifier Modifier for the text
- * @param color Text color
- * @param maxLines Maximum number of lines
- */
-@Composable
-fun SubtitleText(
-    text: String,
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    maxLines: Int = 2
-) {
-    Text(
-        text = text,
-        style = ThmanyahTextStyles.cardSubtitle,
-        color = color,
-        modifier = modifier,
-        maxLines = maxLines,
-        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-    )
-}
-
-/**
- * Metadata text component for small details (episode count, duration, etc.)
- *
- * @param text Metadata text
- * @param modifier Modifier for the text
- * @param color Text color
- */
-@Composable
-fun MetadataText(
-    text: String,
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onSurfaceVariant
-) {
-    Text(
-        text = text,
-        style = ThmanyahTextStyles.metadata,
-        color = color,
-        modifier = modifier
-    )
-}
-

@@ -10,3 +10,4 @@ data class SearchResult(
     val episodeCount: String?
 )
 
+

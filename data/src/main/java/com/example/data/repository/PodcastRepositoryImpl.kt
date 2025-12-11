@@ -5,5 +5,5 @@ import com.example.domain.repository.PodcastRepository
 
 class PodcastRepositoryImpl(private val remoteDatasource: RemoteDatasource) : PodcastRepository {
 
-    override fun fetchPodcasts() = remoteDatasource.fetchPodcasts()
+    override fun fetchPodcasts(page: Int) = remoteDatasource.fetchPodcasts(page)
 }

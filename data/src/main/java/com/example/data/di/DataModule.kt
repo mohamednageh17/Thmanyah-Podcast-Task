@@ -27,4 +27,3 @@ val dataModule = module {
         SearchRepositoryImpl(remoteDatasource = get())
     }
 }
-

@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -47,6 +48,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.core.designsystem.components.loading.ShimmerSearchResults
 import com.example.domain.models.SearchResult
+import com.example.thmanyah_podcast_task.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -63,7 +65,7 @@ fun SearchScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         Text(
-            text = "البحث",
+            text = stringResource(R.string.search_title),
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold
             ),
@@ -86,19 +88,18 @@ fun SearchScreen(
                 uiState.isLoading -> {
                     ShimmerSearchResults()
                 }
-
                 uiState.error != null -> {
-                    SearchErrorState(message = uiState.error!!)
+                    SearchErrorState(
+                        message = uiState.error?.message
+                            ?: stringResource(R.string.error_search_failed)
+                    )
                 }
-
                 uiState.isEmpty -> {
                     SearchEmptyResultState(query = uiState.query)
                 }
-
                 uiState.query.isBlank() -> {
                     SearchIdleContent()
                 }
-
                 else -> {
                     SearchResultsList(results = uiState.results)
                 }
@@ -121,14 +122,14 @@ private fun SearchBar(
         modifier = modifier.fillMaxWidth(),
         placeholder = {
             Text(
-                text = "ابحث عن بودكاست، حلقة، أو كاتب...",
+                text = stringResource(R.string.search_hint),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search",
+                contentDescription = stringResource(R.string.search),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },
@@ -137,7 +138,7 @@ private fun SearchBar(
                 IconButton(onClick = onClear) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Clear",
+                        contentDescription = stringResource(R.string.clear),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -217,7 +218,7 @@ private fun SearchResultItem(
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Play",
+                        contentDescription = stringResource(R.string.play),
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(18.dp)
                     )
@@ -273,7 +274,7 @@ private fun SearchResultItem(
                     }
                     result.episodeCount?.let { count ->
                         Text(
-                            text = "$count حلقة",
+                            text = stringResource(R.string.episode_count, count),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 10.sp
@@ -304,13 +305,13 @@ private fun SearchIdleContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "ابحث عن بودكاست",
+            text = stringResource(R.string.search_idle_title),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "ابحث عن برامجك المفضلة",
+            text = stringResource(R.string.search_idle_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             textAlign = TextAlign.Center
@@ -331,7 +332,7 @@ private fun SearchEmptyResultState(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "لا توجد نتائج",
+            text = stringResource(R.string.search_no_results),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.SemiBold
             ),
@@ -339,7 +340,7 @@ private fun SearchEmptyResultState(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "لم نجد نتائج لـ \"$query\"",
+            text = stringResource(R.string.search_no_results_for, query),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
@@ -360,7 +361,7 @@ private fun SearchErrorState(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "حدث خطأ",
+            text = stringResource(R.string.search_error),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.SemiBold
             ),
