@@ -126,7 +126,7 @@ TmanyahPodcastTask/
 
 ### API Configuration
 
-Base URLs are configured in `apiurl.properties`:
+Base URLs are configured in `apiurl.properties` (must be included at real projects for security wise):
 
 ```properties
 BASE_URL="https://api-v2-b2sit6oh3a-uc.a.run.app/"
