@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ثمانية بودكاست</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_search">البحث</string>
+    <string name="nav_library">مكتبتي</string>
+    <string name="nav_profile">حسابي</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Home Screen -->
+    <string name="home_morning_greeting">صباح الخير</string>
+    <string name="home_evening_greeting">مساء الخير</string>
+    <string name="comma">،</string>
+    <string name="user_name">نـــاجـــح</string>
+    <string name="home_loading">جاري التحميل…</string>
+    <string name="home_error_title">حدث خطأ</string>
+    <string name="home_error_loading">خطأ في تحميل المحتوى</string>
+    <string name="home_retry">إعادة المحاولة</string>
+    <string name="home_empty">لا يوجد محتوى</string>
+    <string name="filter_all">الكل</string>
+    <string name="see_all">عرض الكل</string>
+
+    <!-- Search Screen -->
+    <string name="search_title">البحث</string>
+    <string name="search_hint">ابحث عن بودكاست، حلقة، أو كاتب…</string>
+    <string name="search_idle_title">ابحث عن بودكاست</string>
+    <string name="search_idle_subtitle">ابحث عن برامجك المفضلة</string>
+    <string name="search_no_results">لا توجد نتائج</string>
+    <string name="search_no_results_for">لم نجد نتائج لـ \"%1$s\"</string>
+    <string name="search_error">حدث خطأ</string>
+
+    <!-- Content Labels -->
+    <string name="episode_count">%1$d حلقة</string>
+    <string name="episodes_count_text">%1$s حلقة</string>
+    <string name="new_label">جديد</string>
+    <string name="listen_now">استمع الآن</string>
+    <string name="remaining_time">باقي %1$s د</string>
+    <string name="default_duration">٤٥</string>
+    <string name="podcast_default">بودكاست</string>
+    <string name="separator"> • </string>
+
+    <!-- Accessibility -->
+    <string name="notifications">الإشعارات</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="profile_picture">صورة الملف الشخصي</string>
+    <string name="play">تشغيل</string>
+    <string name="search">بحث</string>
+    <string name="clear">مسح</string>
+    <string name="podcast_cover">غلاف البودكاست</string>
+
+    <!-- Error States -->
+    <string name="error_unknown">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_search_failed">فشل البحث</string>
+
+    <!-- Network Errors -->
+    <string name="error_no_connection">لا يوجد اتصال بالإنترنت. يرجى التحقق من إعدادات الشبكة.</string>
+    <string name="error_timeout">انتهت مهلة الاتصال. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_slow_connection">اتصال بطيء. يرجى الانتظار أو المحاولة لاحقاً.</string>
+    <string name="error_server">خطأ في الخادم (%1$d). يرجى المحاولة لاحقاً.</string>
+
+    <!-- Auth Errors -->
+    <string name="error_unauthorized">يرجى تسجيل الدخول للمتابعة.</string>
+    <string name="error_session_expired">انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.</string>
+    <string name="error_forbidden">ليس لديك صلاحية للوصول إلى هذا المحتوى.</string>
+
+    <!-- Data Errors -->
+    <string name="error_not_found">المحتوى المطلوب غير موجود.</string>
+    <string name="error_parsing">تعذر تحميل المحتوى. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_empty_response">لا توجد بيانات متاحة.</string>
+    <string name="error_invalid_data">بيانات غير صالحة. يرجى المحاولة مرة أخرى.</string>
+
+    <!-- Error Titles -->
+    <string name="error_title_network">خطأ في الاتصال</string>
+    <string name="error_title_auth">خطأ في المصادقة</string>
+    <string name="error_title_data">خطأ في المحتوى</string>
+    <string name="error_title_unknown">خطأ</string>
+
+    <!-- Error Actions -->
+    <string name="error_action_retry">إعادة المحاولة</string>
+    <string name="error_action_login">تسجيل الدخول</string>
+
+    <!-- Offline Banner -->
+    <string name="offline_banner">أنت غير متصل بالإنترنت</string>
+</resources>
