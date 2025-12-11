@@ -50,6 +50,36 @@
     <string name="podcast_cover">Podcast Cover</string>
 
     <!-- Error States -->
-    <string name="error_unknown">Unknown error occurred</string>
+    <string name="error_unknown">Something went wrong. Please try again.</string>
     <string name="error_search_failed">Search failed</string>
+
+    <!-- Network Errors -->
+    <string name="error_no_connection">No internet connection. Please check your network settings.</string>
+    <string name="error_timeout">Connection timed out. Please try again.</string>
+    <string name="error_slow_connection">Slow connection detected. Please wait or try again later.</string>
+    <string name="error_server">Server error (%1$d). Please try again later.</string>
+
+    <!-- Auth Errors -->
+    <string name="error_unauthorized">Please log in to continue.</string>
+    <string name="error_session_expired">Your session has expired. Please log in again.</string>
+    <string name="error_forbidden">You don\'t have permission to access this content.</string>
+
+    <!-- Data Errors -->
+    <string name="error_not_found">The requested content was not found.</string>
+    <string name="error_parsing">Unable to load content. Please try again.</string>
+    <string name="error_empty_response">No data available.</string>
+    <string name="error_invalid_data">Invalid data received. Please try again.</string>
+
+    <!-- Error Titles -->
+    <string name="error_title_network">Connection Error</string>
+    <string name="error_title_auth">Authentication Error</string>
+    <string name="error_title_data">Content Error</string>
+    <string name="error_title_unknown">Error</string>
+
+    <!-- Error Actions -->
+    <string name="error_action_retry">Retry</string>
+    <string name="error_action_login">Log In</string>
+
+    <!-- Offline Banner -->
+    <string name="offline_banner">You are offline</string>
 </resources>

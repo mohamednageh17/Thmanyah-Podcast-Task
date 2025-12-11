@@ -2,7 +2,10 @@ package com.example.thmanyah_podcast_task.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.error.AppError
 import com.example.domain.models.SearchResult
+import com.example.domain.network.NetworkMonitor
+import com.example.domain.network.NetworkStatus
 import com.example.domain.usecases.SearchPodcastsUseCase
 import com.example.domain.utilis.DataState
 import kotlinx.coroutines.FlowPreview
@@ -11,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -22,13 +24,15 @@ data class SearchUiState(
     val query: String = "",
     val isLoading: Boolean = false,
     val results: List<SearchResult> = emptyList(),
-    val error: Throwable? = null,
-    val isEmpty: Boolean = false
+    val error: AppError? = null,
+    val isEmpty: Boolean = false,
+    val isOffline: Boolean = false
 )
 
 @OptIn(FlowPreview::class)
 class SearchViewModel(
-    private val searchPodcastsUseCase: SearchPodcastsUseCase
+    private val searchPodcastsUseCase: SearchPodcastsUseCase,
+    private val networkMonitor: NetworkMonitor
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SearchUiState())
@@ -37,7 +41,20 @@ class SearchViewModel(
     private val _searchQuery = MutableStateFlow("")
 
     init {
+        observeNetworkStatus()
         setupSearchDebounce()
+    }
+
+    /**
+     * Observe network status changes in real-time
+     */
+    private fun observeNetworkStatus() {
+        networkMonitor.networkStatus
+            .onEach { status ->
+                val isOffline = status is NetworkStatus.Disconnected
+                _uiState.update { it.copy(isOffline = isOffline) }
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun setupSearchDebounce() {
@@ -56,10 +73,21 @@ class SearchViewModel(
                     }
                     flowOf(null)
                 } else {
-                    searchPodcastsUseCase(query)
+                    // Check network before searching
+                    if (!networkMonitor.isConnected) {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                error = AppError.Network.NoConnection,
+                                isOffline = true
+                            )
+                        }
+                        flowOf(null)
+                    } else {
+                        searchPodcastsUseCase(query)
+                    }
                 }
             }
-            .filter { it != null }
             .onEach { dataState ->
                 when (dataState) {
                     is DataState.Loading -> {
@@ -79,7 +107,7 @@ class SearchViewModel(
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                error = dataState.exception
+                                error = dataState.error
                             )
                         }
                     }
@@ -95,7 +123,7 @@ class SearchViewModel(
     }
 
     fun clearSearch() {
-        _uiState.update { SearchUiState() }
+        _uiState.update { SearchUiState(isOffline = _uiState.value.isOffline) }
         _searchQuery.value = ""
     }
 

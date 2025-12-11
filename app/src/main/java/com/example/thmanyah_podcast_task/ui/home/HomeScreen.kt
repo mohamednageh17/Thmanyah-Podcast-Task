@@ -1,6 +1,7 @@
 package com.example.thmanyah_podcast_task.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,12 +53,14 @@ import com.example.core.designsystem.components.states.ErrorType
 import com.example.core.designsystem.components.states.LoadingState
 import com.example.core.designsystem.components.states.LoadingStateType
 import com.example.core.designsystem.components.text.SectionHeader
+import com.example.domain.error.AppError
 import com.example.domain.models.Content
 import com.example.domain.models.ContentType
 import com.example.domain.models.SectionType
 import com.example.domain.models.Sections
 import com.example.thmanyah_podcast_task.R
 import com.example.thmanyah_podcast_task.ui.home.components.ContentItemFactory
+import com.example.thmanyah_podcast_task.util.ErrorMessageResolver
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import org.koin.androidx.compose.koinViewModel
@@ -82,7 +85,13 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeTopBar(greetingMessage = greetingMessage)
+            Column {
+                // Offline banner
+                if (uiState.isOffline) {
+                    OfflineBanner()
+                }
+                HomeTopBar(greetingMessage = greetingMessage)
+            }
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { scaffoldPaddings ->
@@ -101,12 +110,18 @@ fun HomeScreen(
                 }
 
                 uiState.error != null && uiState.allSections.isEmpty() -> {
+                    val error = uiState.error!!
                     ErrorState(
-                        title = stringResource(R.string.home_error_title),
-                        message = uiState.error?.message ?: stringResource(R.string.error_unknown),
-                        errorType = ErrorType.Network,
-                        onRetry = viewModel::retry,
-                        retryButtonText = stringResource(R.string.home_retry)
+                        title = ErrorMessageResolver.getTitle(context, error),
+                        message = ErrorMessageResolver.getMessage(context, error),
+                        errorType = when (error) {
+                            is AppError.Network -> ErrorType.Network
+                            is AppError.Auth -> ErrorType.Auth
+                            else -> ErrorType.General
+                        },
+                        onRetry = if (error.isRetryable) viewModel::retry else null,
+                        retryButtonText = ErrorMessageResolver.getActionText(context, error)
+                            ?: stringResource(R.string.home_retry)
                     )
                 }
 
@@ -124,7 +139,7 @@ fun HomeScreen(
                         contentTypeFilters = uiState.contentTypeFilters,
                         selectedFilterIndex = uiState.selectedFilterIndex,
                         isLoadingMore = uiState.isLoadingMore,
-                        hasMorePages = uiState.hasMorePages,
+                        hasMorePages = uiState.nextPageToLoad != null,
                         onFilterSelected = viewModel::onFilterSelected,
                         onLoadMore = viewModel::loadNextPage,
                         onItemClick = onItemClick
@@ -423,5 +438,25 @@ private fun SectionItem(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun OfflineBanner(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.error)
+            .padding(vertical = 8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.offline_banner),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onError,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+        )
     }
 }

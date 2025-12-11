@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +50,7 @@ import coil3.compose.AsyncImage
 import com.example.core.designsystem.components.loading.ShimmerSearchResults
 import com.example.domain.models.SearchResult
 import com.example.thmanyah_podcast_task.R
+import com.example.thmanyah_podcast_task.util.ErrorMessageResolver
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -58,12 +60,18 @@ fun SearchScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        // Offline banner
+        if (uiState.isOffline) {
+            OfflineBanner()
+        }
+
         Text(
             text = stringResource(R.string.search_title),
             style = MaterialTheme.typography.headlineMedium.copy(
@@ -89,9 +97,10 @@ fun SearchScreen(
                     ShimmerSearchResults()
                 }
                 uiState.error != null -> {
+                    val error = uiState.error!!
                     SearchErrorState(
-                        message = uiState.error?.message
-                            ?: stringResource(R.string.error_search_failed)
+                        title = ErrorMessageResolver.getTitle(context, error),
+                        message = ErrorMessageResolver.getMessage(context, error)
                     )
                 }
                 uiState.isEmpty -> {
@@ -350,6 +359,7 @@ private fun SearchEmptyResultState(
 
 @Composable
 private fun SearchErrorState(
+    title: String,
     message: String,
     modifier: Modifier = Modifier
 ) {
@@ -361,7 +371,7 @@ private fun SearchErrorState(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.search_error),
+            text = title,
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.SemiBold
             ),
@@ -373,6 +383,26 @@ private fun SearchErrorState(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun OfflineBanner(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.error)
+            .padding(vertical = 8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.offline_banner),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onError,
+            fontWeight = FontWeight.Medium
         )
     }
 }

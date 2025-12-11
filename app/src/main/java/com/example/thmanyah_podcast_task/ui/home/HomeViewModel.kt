@@ -2,7 +2,10 @@ package com.example.thmanyah_podcast_task.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.error.AppError
 import com.example.domain.models.Sections
+import com.example.domain.network.NetworkMonitor
+import com.example.domain.network.NetworkStatus
 import com.example.domain.usecases.FetchPodcastsUseCase
 import com.example.domain.utilis.DataState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,13 +23,14 @@ data class HomeUiState(
     val filteredSections: List<Sections> = emptyList(),
     val contentTypeFilters: List<String> = emptyList(),
     val selectedFilterIndex: Int = 0,
-    val currentPage: Int = 1,
-    val hasMorePages: Boolean = true,
-    val error: Throwable? = null
+    val nextPageToLoad: Int? = null,
+    val error: AppError? = null,
+    val isOffline: Boolean = false
 )
 
 class HomeViewModel(
-    private val fetchPodcastsUseCase: FetchPodcastsUseCase
+    private val fetchPodcastsUseCase: FetchPodcastsUseCase,
+    private val networkMonitor: NetworkMonitor
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -35,13 +39,39 @@ class HomeViewModel(
     private val loadedPages = mutableSetOf<Int>()
 
     init {
+        observeNetworkStatus()
         fetchPage(1)
     }
 
+    private fun observeNetworkStatus() {
+        networkMonitor.networkStatus
+            .onEach { status ->
+                val isOffline = status is NetworkStatus.Disconnected
+                _uiState.update { it.copy(isOffline = isOffline) }
+
+                if (status is NetworkStatus.Connected && _uiState.value.error != null) {
+                    Timber.d("Network restored, retrying...")
+                    retry()
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
     private fun fetchPage(page: Int) {
-        Timber.d("fetchPage called with page: $page, loadedPages: $loadedPages")
         if (loadedPages.contains(page)) {
             Timber.d("Page $page already loaded, skipping")
+            return
+        }
+
+        if (!networkMonitor.isConnected) {
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    isLoadingMore = false,
+                    error = AppError.Network.NoConnection,
+                    isOffline = true
+                )
+            }
             return
         }
 
@@ -65,8 +95,17 @@ class HomeViewModel(
                         }
 
                         val nextPagePath = dataState.data.pagination?.nextPage
-                        val hasMore = !nextPagePath.isNullOrBlank()
-                        Timber.d("Page $page loaded. nextPagePath: $nextPagePath, hasMore: $hasMore, sectionsCount: ${newSections.size}")
+                        val nextPage = parsePageNumber(nextPagePath)
+
+                        // Check if next page is already loaded (duplicate response)
+                        val actualNextPage =
+                            if (nextPage != null && !loadedPages.contains(nextPage)) {
+                                nextPage
+                            } else {
+                                null
+                            }
+
+                        Timber.d("Page $page loaded. nextPagePath: $nextPagePath, parsedNextPage: $nextPage, actualNextPage: $actualNextPage")
 
                         val currentSections = _uiState.value.allSections
                         val mergedSections = if (page == 1) {
@@ -89,8 +128,7 @@ class HomeViewModel(
                                 allSections = mergedSections,
                                 filteredSections = filteredSections,
                                 contentTypeFilters = contentTypes,
-                                currentPage = page,
-                                hasMorePages = hasMore,
+                                nextPageToLoad = actualNextPage,
                                 error = null
                             )
                         }
@@ -101,7 +139,7 @@ class HomeViewModel(
                             it.copy(
                                 isLoading = false,
                                 isLoadingMore = false,
-                                error = dataState.exception
+                                error = dataState.error
                             )
                         }
                     }
@@ -114,18 +152,23 @@ class HomeViewModel(
 
     fun loadNextPage() {
         val currentState = _uiState.value
-        Timber.d("loadNextPage called. isLoadingMore: ${currentState.isLoadingMore}, hasMorePages: ${currentState.hasMorePages}, currentPage: ${currentState.currentPage}")
 
         if (currentState.isLoadingMore) {
-            Timber.d("Already loading more, skipping")
-            return
-        }
-        if (!currentState.hasMorePages) {
-            Timber.d("No more pages, skipping")
+            Timber.d("Already loading, skipping")
             return
         }
 
-        val nextPage = currentState.currentPage + 1
+        val nextPage = currentState.nextPageToLoad
+        if (nextPage == null) {
+            Timber.d("No more pages to load")
+            return
+        }
+
+        if (loadedPages.contains(nextPage)) {
+            Timber.d("Page $nextPage already loaded, skipping")
+            return
+        }
+
         Timber.d("Loading next page: $nextPage")
         fetchPage(nextPage)
     }
@@ -148,7 +191,7 @@ class HomeViewModel(
 
     fun retry() {
         loadedPages.clear()
-        _uiState.update { HomeUiState() }
+        _uiState.update { HomeUiState(isOffline = _uiState.value.isOffline) }
         fetchPage(1)
     }
 
@@ -174,10 +217,9 @@ class HomeViewModel(
             .distinct()
     }
 
-    private fun parseNextPage(nextPagePath: String?): Int? {
+    private fun parsePageNumber(nextPagePath: String?): Int? {
         if (nextPagePath.isNullOrBlank()) return null
         val regex = Regex("page=(\\d+)")
-        val match = regex.find(nextPagePath)
-        return match?.groupValues?.get(1)?.toIntOrNull()
+        return regex.find(nextPagePath)?.groupValues?.get(1)?.toIntOrNull()
     }
 }

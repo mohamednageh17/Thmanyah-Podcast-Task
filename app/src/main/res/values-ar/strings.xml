@@ -51,6 +51,36 @@
     <string name="podcast_cover">غلاف البودكاست</string>
 
     <!-- Error States -->
-    <string name="error_unknown">حدث خطأ غير معروف</string>
+    <string name="error_unknown">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
     <string name="error_search_failed">فشل البحث</string>
+
+    <!-- Network Errors -->
+    <string name="error_no_connection">لا يوجد اتصال بالإنترنت. يرجى التحقق من إعدادات الشبكة.</string>
+    <string name="error_timeout">انتهت مهلة الاتصال. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_slow_connection">اتصال بطيء. يرجى الانتظار أو المحاولة لاحقاً.</string>
+    <string name="error_server">خطأ في الخادم (%1$d). يرجى المحاولة لاحقاً.</string>
+
+    <!-- Auth Errors -->
+    <string name="error_unauthorized">يرجى تسجيل الدخول للمتابعة.</string>
+    <string name="error_session_expired">انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.</string>
+    <string name="error_forbidden">ليس لديك صلاحية للوصول إلى هذا المحتوى.</string>
+
+    <!-- Data Errors -->
+    <string name="error_not_found">المحتوى المطلوب غير موجود.</string>
+    <string name="error_parsing">تعذر تحميل المحتوى. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_empty_response">لا توجد بيانات متاحة.</string>
+    <string name="error_invalid_data">بيانات غير صالحة. يرجى المحاولة مرة أخرى.</string>
+
+    <!-- Error Titles -->
+    <string name="error_title_network">خطأ في الاتصال</string>
+    <string name="error_title_auth">خطأ في المصادقة</string>
+    <string name="error_title_data">خطأ في المحتوى</string>
+    <string name="error_title_unknown">خطأ</string>
+
+    <!-- Error Actions -->
+    <string name="error_action_retry">إعادة المحاولة</string>
+    <string name="error_action_login">تسجيل الدخول</string>
+
+    <!-- Offline Banner -->
+    <string name="offline_banner">أنت غير متصل بالإنترنت</string>
 </resources>

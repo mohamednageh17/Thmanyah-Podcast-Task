@@ -4,11 +4,18 @@ import com.example.data.remote.response.PodcastsListResponse
 import com.example.data.remote.response.SearchResponse
 import com.example.data.remote.response.SearchResultResponse
 import com.example.data.remote.response.Sections
+import com.example.domain.models.Pagination
 import com.example.domain.models.PodcastsList
 import com.example.domain.models.SearchResult
 
 fun PodcastsListResponse.toDomain() = PodcastsList(
-    sections = this.sections.map { it.toDomain() }
+    sections = this.sections.map { it.toDomain() },
+    pagination = this.pagination?.toDomain()
+)
+
+fun com.example.data.remote.response.Pagination.toDomain() = Pagination(
+    nextPage = this.nextPage,
+    totalPages = this.totalPages
 )
 
 fun Sections.toDomain() = com.example.domain.models.Sections(

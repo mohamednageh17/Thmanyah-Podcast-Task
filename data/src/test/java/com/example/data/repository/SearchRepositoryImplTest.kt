@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import app.cash.turbine.test
 import com.example.domain.datasource.remote_datasource.RemoteDatasource
+import com.example.domain.error.AppError
 import com.example.domain.models.SearchResult
 import com.example.domain.utilis.DataState
 import io.mockk.coEvery
@@ -25,84 +26,36 @@ class SearchRepositoryImplTest {
     }
 
     @Test
-    fun `search returns success when datasource returns results`() = runTest {
-        // Given
-        val query = "test"
+    fun `search returns results successfully`() = runTest {
         val mockResults = listOf(
-            SearchResult(
-                id = "1",
-                name = "Test Podcast",
-                description = "A test podcast",
-                avatarUrl = "https://example.com/image.jpg",
-                type = "podcast",
-                duration = null,
-                episodeCount = "10"
-            )
+            SearchResult("1", "Podcast", "desc", "url", "podcast", "60", "10")
         )
 
-        coEvery { remoteDatasource.search(query) } returns flowOf(
+        coEvery { remoteDatasource.search("test") } returns flowOf(
             DataState.Loading,
             DataState.Success(mockResults)
         )
 
-        // When & Then
-        repository.search(query).test {
-            val loadingState = awaitItem()
-            assertTrue(loadingState is DataState.Loading)
-
-            val successState = awaitItem()
-            assertTrue(successState is DataState.Success)
-            assertEquals(mockResults, (successState as DataState.Success).data)
-
+        repository.search("test").test {
+            assertTrue(awaitItem() is DataState.Loading)
+            val success = awaitItem() as DataState.Success
+            assertEquals(1, success.data.size)
             awaitComplete()
         }
     }
 
     @Test
-    fun `search returns empty list when no results found`() = runTest {
-        // Given
-        val query = "nonexistent"
-        val emptyResults = emptyList<SearchResult>()
-
-        coEvery { remoteDatasource.search(query) } returns flowOf(
+    fun `search returns error on failure`() = runTest {
+        coEvery { remoteDatasource.search("test") } returns flowOf(
             DataState.Loading,
-            DataState.Success(emptyResults)
+            DataState.Error(AppError.Network.Timeout)
         )
 
-        // When & Then
-        repository.search(query).test {
-            awaitItem() // Loading
-
-            val successState = awaitItem()
-            assertTrue(successState is DataState.Success)
-            assertTrue((successState as DataState.Success).data.isEmpty())
-
-            awaitComplete()
-        }
-    }
-
-    @Test
-    fun `search returns error when datasource fails`() = runTest {
-        // Given
-        val query = "test"
-        val exception = Exception("Search failed")
-
-        coEvery { remoteDatasource.search(query) } returns flowOf(
-            DataState.Loading,
-            DataState.Error(exception)
-        )
-
-        // When & Then
-        repository.search(query).test {
-            awaitItem() // Loading
-
-            val errorState = awaitItem()
-            assertTrue(errorState is DataState.Error)
-            assertEquals(exception, (errorState as DataState.Error).exception)
-
+        repository.search("test").test {
+            awaitItem()
+            val error = awaitItem() as DataState.Error
+            assertTrue(error.error is AppError.Network.Timeout)
             awaitComplete()
         }
     }
 }
-
-

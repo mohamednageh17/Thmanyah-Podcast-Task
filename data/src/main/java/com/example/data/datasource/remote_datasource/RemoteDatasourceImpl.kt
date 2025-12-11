@@ -1,5 +1,6 @@
 package com.example.data.datasource.remote_datasource
 
+import com.example.data.error.ErrorMapper
 import com.example.data.mappers.toDomain
 import com.example.data.mappers.toSearchResultList
 import com.example.data.remote.api.PodcastsApi
@@ -23,7 +24,7 @@ class RemoteDatasourceImpl(
                 val apiResponse = podcastsApi.getPodcastsList(page)
                 emit(DataState.Success(apiResponse.toDomain()))
             } catch (e: Exception) {
-                emit(DataState.Error(e))
+                emit(DataState.Error(ErrorMapper.map(e)))
             }
         }
     }
@@ -35,7 +36,7 @@ class RemoteDatasourceImpl(
                 val apiResponse = searchApi.search(query)
                 emit(DataState.Success(apiResponse.toSearchResultList()))
             } catch (e: Exception) {
-                emit(DataState.Error(e))
+                emit(DataState.Error(ErrorMapper.map(e)))
             }
         }
     }

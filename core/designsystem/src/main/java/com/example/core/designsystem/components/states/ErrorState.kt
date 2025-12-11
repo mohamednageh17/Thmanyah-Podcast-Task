@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ErrorOutline
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.WifiOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +34,8 @@ enum class ErrorType {
     General,
     Network,
     Server,
-    NotFound
+    NotFound,
+    Auth
 }
 
 /**
@@ -159,10 +161,12 @@ fun CompactErrorState(
 private fun getErrorIcon(errorType: ErrorType): ImageVector {
     return when (errorType) {
         ErrorType.Network -> Icons.Outlined.WifiOff
+        ErrorType.Auth -> Icons.Outlined.Lock
         ErrorType.General,
         ErrorType.Server,
         ErrorType.NotFound -> Icons.Outlined.ErrorOutline
     }
 }
+
 
 

@@ -87,6 +87,7 @@ dependencies {
 
     // Koin
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     // Testing
     testImplementation(libs.mockk)

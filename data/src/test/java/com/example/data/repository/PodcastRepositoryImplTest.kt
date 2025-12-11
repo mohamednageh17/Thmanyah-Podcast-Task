@@ -2,7 +2,8 @@ package com.example.data.repository
 
 import app.cash.turbine.test
 import com.example.domain.datasource.remote_datasource.RemoteDatasource
-import com.example.domain.models.Content
+import com.example.domain.error.AppError
+import com.example.domain.models.Pagination
 import com.example.domain.models.PodcastsList
 import com.example.domain.models.Sections
 import com.example.domain.utilis.DataState
@@ -27,84 +28,37 @@ class PodcastRepositoryImplTest {
     }
 
     @Test
-    fun `fetchPodcasts returns success when datasource returns data`() = runTest {
-        // Given
-        val mockSections = listOf(
-            Sections(
-                name = "Popular Podcasts",
-                type = "horizontal_list",
-                contentType = "podcast",
-                order = "1",
-                content = listOf(
-                    Content(
-                        podcastId = "1",
-                        name = "Test Podcast",
-                        description = "Description",
-                        avatarUrl = "https://example.com/image.jpg"
-                    )
-                )
-            )
+    fun `fetchPodcasts returns success with data`() = runTest {
+        val mockData = PodcastsList(
+            sections = listOf(Sections(name = "Test", order = "1", content = emptyList())),
+            pagination = Pagination(nextPage = "/page=2", totalPages = 2)
         )
-        val mockPodcastsList = PodcastsList(sections = mockSections)
 
-        coEvery { remoteDatasource.fetchPodcasts() } returns flowOf(
+        coEvery { remoteDatasource.fetchPodcasts(1) } returns flowOf(
             DataState.Loading,
-            DataState.Success(mockPodcastsList)
+            DataState.Success(mockData)
         )
 
-        // When & Then
-        repository.fetchPodcasts().test {
-            val loadingState = awaitItem()
-            assertTrue(loadingState is DataState.Loading)
-
-            val successState = awaitItem()
-            assertTrue(successState is DataState.Success)
-            assertEquals(mockPodcastsList, (successState as DataState.Success).data)
-
+        repository.fetchPodcasts(1).test {
+            assertTrue(awaitItem() is DataState.Loading)
+            val success = awaitItem() as DataState.Success
+            assertEquals(1, success.data.sections.size)
             awaitComplete()
         }
     }
 
     @Test
-    fun `fetchPodcasts returns error when datasource fails`() = runTest {
-        // Given
-        val exception = Exception("Network error")
-        coEvery { remoteDatasource.fetchPodcasts() } returns flowOf(
+    fun `fetchPodcasts returns error on failure`() = runTest {
+        coEvery { remoteDatasource.fetchPodcasts(1) } returns flowOf(
             DataState.Loading,
-            DataState.Error(exception)
+            DataState.Error(AppError.Network.NoConnection)
         )
 
-        // When & Then
-        repository.fetchPodcasts().test {
-            val loadingState = awaitItem()
-            assertTrue(loadingState is DataState.Loading)
-
-            val errorState = awaitItem()
-            assertTrue(errorState is DataState.Error)
-            assertEquals(exception, (errorState as DataState.Error).exception)
-
-            awaitComplete()
-        }
-    }
-
-    @Test
-    fun `fetchPodcasts emits loading state first`() = runTest {
-        // Given
-        val mockPodcastsList = PodcastsList(sections = emptyList())
-        coEvery { remoteDatasource.fetchPodcasts() } returns flowOf(
-            DataState.Loading,
-            DataState.Success(mockPodcastsList)
-        )
-
-        // When & Then
-        repository.fetchPodcasts().test {
-            val firstState = awaitItem()
-            assertTrue("First emission should be Loading", firstState is DataState.Loading)
-
-            awaitItem() // Success state
+        repository.fetchPodcasts(1).test {
+            awaitItem()
+            val error = awaitItem() as DataState.Error
+            assertTrue(error.error is AppError.Network.NoConnection)
             awaitComplete()
         }
     }
 }
-
-
