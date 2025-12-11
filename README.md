@@ -5,9 +5,7 @@ principles and MVVM pattern.
 
 ## 🎬 Demo
 
-<video src="assets/demo.mp4" controls width="300"></video>
-
-> **Note**: If the video doesn't play above, [click here to download and watch](assets/demo.mp4)
+https://github.com/user-attachments/assets/6761a3cd-822d-4c03-b255-55e3c932e73b
 
 ## 📱 Features
 
@@ -213,8 +211,3 @@ The app includes a dedicated `core:designsystem` module with:
 - Parses `next_page` from API response
 - Prevents duplicate page fetches
 - Proper loading states
-
-## 📄 Documentation
-
-See [SOLUTION.md](SOLUTION.md) for detailed implementation notes, challenges, and improvement ideas.
-
